@@ -24,5 +24,7 @@ client.on('messageCreate', (message) => {
   }
 });  
 
+
+
 //this line must be at the very end
 client.login(process.env.CLIENT_TOKEN); //signs the bot in with token
