@@ -1,0 +1,19 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Geek-x104/skira-info-bot.git"
+  },
+  "author": "Geek-x",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Geek-x104/skira-info-bot/issues"
+  },
+  "homepage": "https://github.com/Geek-x104/skira-info-bot#readme",
+  "description": ""
+}
