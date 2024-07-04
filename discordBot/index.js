@@ -47,17 +47,17 @@ const embed = new EmbedBuilder()
     { name: 'Inline field title', value: 'Some value here', inline: true },
   );
 
-//client.on('ready', () => {
+client.on('ready', () => {
   //console.log(`Logged in as ${client.user.tag}!`);
 
-  // You can access the channels cache here
-  //const channel = client.channels.cache.find(channel => channel.name === 'channel-name');
-  //if (channel) {
-    //channel.send({ embeds: [embed] });
-  //} else {
-    //console.log('Channel not found');
-  //}
-//});
+  //You can access the channels cache here
+  const channel = client.channels.cache.find(channel => channel.name === 'channel-name');
+  if (channel) {
+    channel.send({ embeds: [embed] });
+  } else {
+    console.log('Channel not found');
+  }
+});
 
 client.on('messageCreate', (message) => {
   if (message.content === '!userinfo') {
