@@ -1,0 +1,40 @@
+const send = async (channelId, content) => {
+  const channel = client.channels.cache.get(channelId);
+  if (!channel) {
+    console.error(`Channel not found: ${channelId}`);
+    return;
+  }
+  try {
+    await channel.send(content);
+  } catch (error) {
+    console.error(`Error sending message: ${error}`);
+  }
+};
+
+const embed = new EmbedBuilder()
+	.setColor(0x0099FF)
+	.setTitle('User Profile')
+	.setURL('https://discord.js.org/')
+	.setAuthor({ name: 'Skira Information Bot'})
+	.setDescription('Some description here')
+	.addFields(
+		//{name: 'User Info:', value:user.name,},
+    { name: 'Highest Ratings:', value: 'Some value here'},
+		{ name: '\u200B', value: '\u200B' },
+		{ name: 'Inline field title', value: 'Some value here', inline: true },
+		{ name: 'Inline field title', value: 'Some value here', inline: true },
+  )
+
+channel.send({ embeds: [userProfile] });
+
+//client.on('messageCreate', (message) => {
+  //if (message.content === '!userinfo') {
+    //message.embed(userProfile)
+  //}
+//});
+
+client.on('messageCreate', (message) => {
+  if (message.content === '!userinfo') {
+    send(message.channel.id, { embeds: [userProfile] });
+  }
+});
