@@ -33,19 +33,44 @@ const channel = client.channels.cache.find(channel => channel.name === channelNa
 
 //const send =  client.channels.cache.get(channel.id) 
 
-const embed = new EmbedBuilder()
-  .setColor(0x0099FF)
-  .setTitle('User Profile')
-  .setURL('https://discord.js.org/')
-  .setAuthor({ name: 'Skira Information Bot' })
-  .setDescription('Some description here')
-  .addFields(
-    // { name: 'User Info:', value: user.name, },
-    { name: 'Highest Ratings:', value: 'Some value here' },
-    { name: '\u200B', value: '\u200B' },
-    { name: 'Inline field title', value: 'Some value here', inline: true },
-    { name: 'Inline field title', value: 'Some value here', inline: true },
-  );
+//const user = client.users.cache.get(UserID)
+
+client.on('messageCreate', (message) => {
+  if (message.content.startsWith('!userinfo')) {
+    const mention = message.mentions.users.first();
+    if (mention) {
+      const UserID = mention.id;
+      const user = client.users.cache.get(UserID);
+      const embed = new EmbedBuilder()
+        .setColor(0x0099FF)
+        .setTitle('User Profile')
+        .setAuthor({ name: 'Skira Information Bot' })
+        .addFields(
+          { name: 'User Info:', value: user.tag },
+          { name: 'Highest Ratings:' },
+          { name: '\u200B', value: '\u200B' },
+
+        );
+      message.channel.send({ embeds: [embed] });
+    } else {
+      message.reply('Please mention a user!');
+    }
+  }
+});
+
+//const embed = new EmbedBuilder()
+  //.setColor(0x0099FF)
+  //.setTitle('User Profile')
+  //.setURL('https://discord.js.org/')
+  //.setAuthor({ name: 'Skira Information Bot' })
+  //.setDescription('Some description here')
+  //.addFields(
+    //{ name: 'User Info:', value: user },
+    //{ name: 'Highest Ratings:', value: 'Some value here' },
+    //{ name: '\u200B', value: '\u200B' },
+    //{ name: 'Inline field title', value: 'Some value here', inline: true },
+    //{ name: 'Inline field title', value: 'Some value here', inline: true },
+  //);
 
 client.on('ready', () => {
   //console.log(`Logged in as ${client.user.tag}!`);
