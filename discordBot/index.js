@@ -48,8 +48,8 @@ client.on('messageCreate', (message) => {
         .addFields(
           { name: 'User Info:', value: user.tag },
           { name: 'Rank:', value: 'Some value here' },
-          { name: 'Company:', value: 'Some value here' },
           { name: 'Battalion:', value: 'Some value here' },
+          { name: 'Company:', value: 'Some value here' },
           { name: 'Platoon:', value: 'Some value here' },
           { name: 'Highest Leadership Rating:', value: 'Some value here' },
           { name: 'Highest Rifle Rating:', value: 'Some value here' },
