@@ -47,9 +47,19 @@ client.on('messageCreate', (message) => {
         .setAuthor({ name: 'Skira Information Bot' })
         .addFields(
           { name: 'User Info:', value: user.tag },
-          { name: 'Highest Ratings:' },
+          { name: 'Rank:', value: 'Some value here' },
+          { name: 'Company:', value: 'Some value here' },
+          { name: 'Battalion:', value: 'Some value here' },
+          { name: 'Platoon:', value: 'Some value here' },
+          { name: 'Highest Leadership Rating:', value: 'Some value here' },
+          { name: 'Highest Rifle Rating:', value: 'Some value here' },
+          { name: 'Highest Medical Rating:', value: 'Some value here' },
+          { name: 'Highest Explosive Rating:', value: 'Some value here' },
+          { name: 'Highest Weapons Rating:', value: 'Some value here' },
+          { name: 'Highest Pilot Rating:', value: 'Some value here' },
+          { name: 'Highest Gunning Rating:', value: 'Some value here' },
+          { name: 'Highest Driver Ratings:', value: 'Some value here' },
           { name: '\u200B', value: '\u200B' },
-
         );
       message.channel.send({ embeds: [embed] });
     } else {
@@ -57,20 +67,6 @@ client.on('messageCreate', (message) => {
     }
   }
 });
-
-//const embed = new EmbedBuilder()
-  //.setColor(0x0099FF)
-  //.setTitle('User Profile')
-  //.setURL('https://discord.js.org/')
-  //.setAuthor({ name: 'Skira Information Bot' })
-  //.setDescription('Some description here')
-  //.addFields(
-    //{ name: 'User Info:', value: user },
-    //{ name: 'Highest Ratings:', value: 'Some value here' },
-    //{ name: '\u200B', value: '\u200B' },
-    //{ name: 'Inline field title', value: 'Some value here', inline: true },
-    //{ name: 'Inline field title', value: 'Some value here', inline: true },
-  //);
 
 client.on('ready', () => {
   //console.log(`Logged in as ${client.user.tag}!`);
