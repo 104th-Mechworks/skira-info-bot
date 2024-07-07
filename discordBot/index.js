@@ -39,41 +39,84 @@ client.on('messageCreate', (message) => {
   if (message.content.startsWith('!userinfo')) {
     const mention = message.mentions.users.first();
     if (mention) {
-      const UserID = mention.id; //get the userID
-      const user = client.users.cache.get(UserID); // get the user themself 
+      const UserID = mention.id; // get the userID
+      const user = client.users.cache.get(UserID); // get the user themselves
       const guild = message.guild; // Get the guild from the message
-      const embed = new EmbedBuilder()
-        .setColor(0x0099FF)
-        .setTitle('User Profile')
-        .setAuthor({ name: 'Skira Information Bot' })
-        .addFields(
-          { name: 'User Info:', value: user.tag },
-          { name: 'User ID:', value: user.id },
-          { name: 'Discord Join Date:', value: user.createdAt.toLocaleString() },
-          { name: 'Server Join Date:', value: guild.members.cache.get(user.id).joinedAt.toLocaleString() }, // Use guild here
-          //{ name: '\u200B', value: '\u200B' },
-          //{ name: 'Rank:', value: 'Some value here' },
-          //{ name: 'MOS', value: 'Some Value here'},
-          { name: '\u200B', value: '\u200B' },
-          { name: 'Battalion:', value: 'Some value here' },
-          { name: 'Company:', value: 'Some value here' },
-          { name: 'Platoon:', value: 'Some value here' },
-          { name: '\u200B', value: '\u200B' },
-          { name: 'Highest Leadership Rating:', value: 'Some value here' },
-          { name: '\u200B', value: '\u200B' },
-          { name: 'Highest Rifle Rating:', value: 'Some value here' },
-          { name: 'Highest Medical Rating:', value: 'Some value here' },
-          { name: '\u200B', value: '\u200B' },
-          { name: 'Highest Explosive Rating:', value: 'Some value here' },
-          { name: 'Highest Weapons Rating:', value: 'Some value here' },
-          { name: '\u200B', value: '\u200B' },
-          { name: 'Highest Pilot Rating:', value: 'Some value here' },
-          { name: '\u200B', value: '\u200B' },
-          { name: 'Armour Leader Rating:', value: 'Some value here' },
-          { name: 'Armour Gunning Rating:', value: 'Some value here' },
-          { name: 'Armour Driver Ratings:', value: 'Some value here' }
-        );
-      message.channel.send({ embeds: [embed] });
+
+      // Fetch the highest role for the user
+      const query = {
+        text: `
+          WITH 
+            role_hierarchy AS (
+              SELECT 'admin' AS role_name, 1 AS role_level UNION ALL
+              SELECT 'moderator', 2 UNION ALL
+              SELECT 'editor', 3 UNION ALL
+              SELECT 'user', 4
+            ),
+            
+            user_roles_with_hierarchy AS (
+              SELECT 
+                u.user_id,
+                ur.role_name,
+                rh.role_level
+              FROM 
+                users u
+              JOIN 
+                user_roles ur ON u.user_id = ur.user_id
+              JOIN 
+                role_hierarchy rh ON ur.role_name = rh.role_name
+            )
+
+          SELECT 
+            MAX(role_name) KEEP (DENSE_RANK FIRST ORDER BY role_level) AS highest_role
+          FROM 
+            user_roles_with_hierarchy
+          WHERE 
+            user_id = $1
+        `,
+        values: [user.id],
+      };
+
+      db.query(query, (err, result) => {
+        if (err) {
+          console.error(err);
+          return message.reply('Error fetching user info.');
+        }
+
+        const highestRole = result.rows[0].highest_role;
+        const embed = new EmbedBuilder()
+          .setColor(0x0099FF)
+          .setTitle('User Profile')
+          .setAuthor({ name: 'Skira Information Bot' })
+          .addFields(
+            { name: 'User Info:', value: user.tag },
+            { name: 'User ID:', value: user.id },
+            { name: 'Discord Join Date:', value: user.createdAt.toLocaleString() },
+            { name: 'Server Join Date:', value: guild.members.cache.get(user.id).joinedAt.toLocaleString() }, // Use guild here
+            //{ name: '\u200B', value: '\u200B' },
+            //{ name: 'Rank:', value: 'Some value here' },
+            //{ name: 'MOS', value: 'Some Value here'},
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Battalion:', value: 'Some value here' },
+            { name: 'Company:', value: 'Some value here' },
+            { name: 'Platoon:', value: 'Some value here' },
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Highest Leadership Rating:', value: 'Some value here' },
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Highest Rifle Rating:', value: 'Some value here' },
+            { name: 'Highest Medical Rating:', value: 'Some value here' },
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Highest Explosive Rating:', value: 'Some value here' },
+            { name: 'Highest Weapons Rating:', value: 'Some value here' },
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Highest Pilot Rating:', value: 'Some value here' },
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Armour Leader Rating:', value: 'Some value here' },
+            { name: 'Armour Gunning Rating:', value: 'Some value here' },
+            { name: 'Armour Driver Ratings:', value: 'Some value here' }
+          );
+        message.channel.send({ embeds: [embed] });
+      });
     } else {
       message.reply('Please mention a user!');
     }
