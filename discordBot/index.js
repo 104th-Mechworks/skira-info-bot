@@ -39,27 +39,39 @@ client.on('messageCreate', (message) => {
   if (message.content.startsWith('!userinfo')) {
     const mention = message.mentions.users.first();
     if (mention) {
-      const UserID = mention.id;
-      const user = client.users.cache.get(UserID);
+      const UserID = mention.id; //get the userID
+      const user = client.users.cache.get(UserID); // get the user themself 
+      const guild = message.guild; // Get the guild from the message
       const embed = new EmbedBuilder()
         .setColor(0x0099FF)
         .setTitle('User Profile')
         .setAuthor({ name: 'Skira Information Bot' })
         .addFields(
           { name: 'User Info:', value: user.tag },
-          { name: 'Rank:', value: 'Some value here' },
+          { name: 'User ID:', value: user.id },
+          { name: 'Discord Join Date:', value: user.createdAt.toLocaleString() },
+          { name: 'Server Join Date:', value: guild.members.cache.get(user.id).joinedAt.toLocaleString() }, // Use guild here
+          //{ name: '\u200B', value: '\u200B' },
+          //{ name: 'Rank:', value: 'Some value here' },
+          //{ name: 'MOS', value: 'Some Value here'},
+          { name: '\u200B', value: '\u200B' },
           { name: 'Battalion:', value: 'Some value here' },
           { name: 'Company:', value: 'Some value here' },
           { name: 'Platoon:', value: 'Some value here' },
+          { name: '\u200B', value: '\u200B' },
           { name: 'Highest Leadership Rating:', value: 'Some value here' },
+          { name: '\u200B', value: '\u200B' },
           { name: 'Highest Rifle Rating:', value: 'Some value here' },
           { name: 'Highest Medical Rating:', value: 'Some value here' },
+          { name: '\u200B', value: '\u200B' },
           { name: 'Highest Explosive Rating:', value: 'Some value here' },
           { name: 'Highest Weapons Rating:', value: 'Some value here' },
-          { name: 'Highest Pilot Rating:', value: 'Some value here' },
-          { name: 'Highest Gunning Rating:', value: 'Some value here' },
-          { name: 'Highest Driver Ratings:', value: 'Some value here' },
           { name: '\u200B', value: '\u200B' },
+          { name: 'Highest Pilot Rating:', value: 'Some value here' },
+          { name: '\u200B', value: '\u200B' },
+          { name: 'Armour Leader Rating:', value: 'Some value here' },
+          { name: 'Armour Gunning Rating:', value: 'Some value here' },
+          { name: 'Armour Driver Ratings:', value: 'Some value here' }
         );
       message.channel.send({ embeds: [embed] });
     } else {
@@ -68,23 +80,17 @@ client.on('messageCreate', (message) => {
   }
 });
 
-client.on('ready', () => {
+//client.on('ready', () => {
   //console.log(`Logged in as ${client.user.tag}!`);
 
   //You can access the channels cache here
-  const channel = client.channels.cache.find(channel => channel.name === 'channel-name');
-  if (channel) {
-    channel.send({ embeds: [embed] });
-  } else {
-    console.log('Channel not found');
-  }
-});
-
-client.on('messageCreate', (message) => {
-  if (message.content === '!userinfo') {
-    send(message.channel.id, { embeds: [embed] });
-  }
-});
+  //const channel = client.channels.cache.find(channel => channel.name === 'channel-name');
+ // if (channel) {
+    //channel.send({ embeds: [embed] });
+  //} else {
+    //console.log('Channel not found');
+  //}
+//});
 
 const send = async (channelId, content) => {
   const channel = client.channels.cache.get(channelId);
