@@ -3,6 +3,8 @@ const Discord = require('discord.js'); //imports discord.js
 const { MessageEmbed } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const { Client, Intents } = require('discord.js');
+const { ActivityType } = require('discord.js');
+
 
 const client = new Discord.Client({ intents: [
   Discord.GatewayIntentBits.Guilds,
@@ -13,7 +15,9 @@ const client = new Discord.Client({ intents: [
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity('Operation Skira! Bot is WIP and therefore is only up from around 10am-11pm BST.', { type: ActivityType.Playing });
 });
+
 
 client.on('messageCreate', (message) => {
  if (message.content === '!ping') {
@@ -47,7 +51,7 @@ client.on('messageCreate', (message) => {
       const member = guild.members.cache.get(UserID); // Get the member from the guild
       const nickName = member.nickname; // Get the nickname of the member
       
-      const roles = member.roles.cache.filter(role =>!excludedRoleNames.includes(`@${role.name}`) && role.name!== '@everyone').sort((a, b) => b.position - a.position).map(role => role.name).join(', ');
+      const roles = member.roles.cache.filter(role =>!excludedRoleNames.includes(`@${role.name}`) && role.name!== '@everyone').sort((a, b) => b.position - a.position).map(role => role.name).join(", ");
 
       const embed = new EmbedBuilder()
         .setColor(0x0099FF)
@@ -97,6 +101,7 @@ const send = async (channelId, content) => {
     console.error(`Error sending message: ${error}`);
   }
 };
+
 
 //this line must be at the very end
 client.login(process.env.CLIENT_TOKEN); //signs the bot in with token
