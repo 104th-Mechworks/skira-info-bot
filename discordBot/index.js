@@ -31,6 +31,13 @@ client.on('messageCreate', (message) => {
   }
 });
 
+client.on('messageCreate', (message) => {
+  if (message.content === '!howto') {
+    message.reply("HOW TO GUIDE:\nStep 1: Type !userinfo and mention the user you want it to ping.\nStep 2: Profit!\nIf the bot doesn't output anything/is offline, then it is down. Ping @geek_x and ask for them to put it back up again.")
+  }
+});
+
+
 const channel = client.channels.cache.find(channel => channel.name === channelName)
 
 //console.log(bot.channels);
@@ -76,18 +83,6 @@ client.on('messageCreate', (message) => {
     }
   }
 });
-
-//client.on('ready', () => {
-  //console.log(`Logged in as ${client.user.tag}!`);
-
-  //You can access the channels cache here
-  //const channel = client.channels.cache.find(channel => channel.name === 'channel-name');
- // if (channel) {
-    //channel.send({ embeds: [embed] });
-  //} else {
-    //console.log('Channel not found');
-  //}
-//});
 
 const send = async (channelId, content) => {
   const channel = client.channels.cache.get(channelId);
