@@ -5,7 +5,8 @@ const { EmbedBuilder } = require('discord.js');
 const { Client, Intents } = require('discord.js');
 const { ActivityType } = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
-const { ButtonStyle } = require('discord.js');
+const { ButtonStyle, SlashCommandBuilder } = require('discord.js');
+
 
 
 const client = new Discord.Client({ intents: [
@@ -82,46 +83,54 @@ client.on('messageCreate', (message) => {
 
         const row = new ActionRowBuilder()
         .addComponents(
-           new ButtonBuilder()
-            .setCustomId('add-role')
-            .setLabel('Add Role')
+          new ButtonBuilder()
+            .setCustomId('rating-roles')
+            .setLabel('Add Rating Roles')
             .setStyle(ButtonStyle.Success),
-           new ButtonBuilder()
-            .setCustomId('remove-role')
-            .setLabel('Remove Role')
+          new ButtonBuilder()
+            .setCustomId('medbay-roles')
+            .setLabel('Add Medbay Roles')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId('company-roles')
+            .setLabel('Add Company Roles')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId('battalion-roles')
+            .setLabel('Add Battalion Roles')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId('remove-roles')
+            .setLabel('Remove Roles')
             .setStyle(ButtonStyle.Danger),
-         );
- 
-       message.channel.send({ embeds: [embed], components: [row] }); // Send the action row with the embed
- 
-       const filter = (interaction) => interaction.customId === 'add-role' || interaction.customId === 'emove-role';
-       const collector = message.channel.createMessageComponentCollector({ filter, time: 60000 });
- 
-       collector.on('collect', async (interaction) => {
-         if (interaction.customId === 'add-role') {
-           // Add role logic here
-           const role = guild.roles.cache.find(role => role.name === 'New Role'); // Replace with the role you want to add
-           if (role) {
-             member.roles.add(role);
-             interaction.reply({ content: `Added role ${role.name} to ${user.tag}`, ephemeral: true });
-           } else {
-             interaction.reply({ content: `Role not found`, ephemeral: true });
-           }
-         } else if (interaction.customId === 'emove-role') {
-           // Remove role logic here
-           const role = guild.roles.cache.find(role => role.name === 'Old Role'); // Replace with the role you want to remove
-           if (role) {
-             member.roles.remove(role);
-             interaction.reply({ content: `Removed role ${role.name} from ${user.tag}`, ephemeral: true });
-           } else {
-             interaction.reply({ content: `Role not found`, ephemeral: true });
-           }
-         }
-       });
+        );
+        message.reply({ embeds: [embed], components: [row] });
 
     } else {
       message.reply('Please mention a user!');
     }
+  }
+});
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isButton()) return;
+
+  switch (interaction.customId) {
+    case 'rating-roles':
+      // Add rating roles to the user
+      break;
+    case 'medbay-roles':
+      // Add medbay roles to the user
+      break;
+    case 'company-roles':
+      // Add company roles to the user
+      break;
+    case 'battalion-roles':
+      // Add battalion roles to the user
+      break;
+    case 'remove-roles':
+      // Remove roles from the user
+      break;
   }
 });
 
