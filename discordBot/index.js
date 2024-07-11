@@ -80,45 +80,6 @@ client.on('messageCreate', (message) => {
         )
         .setFooter({ text: 'If there is any issues, dm "geek_x".' });
 
-        const row = new ActionRowBuilder()
-        .addComponents(
-           new ButtonBuilder()
-            .setCustomId('add-role')
-            .setLabel('Add Role')
-            .setStyle(ButtonStyle.Success),
-           new ButtonBuilder()
-            .setCustomId('remove-role')
-            .setLabel('Remove Role')
-            .setStyle(ButtonStyle.Danger),
-         );
- 
-       message.channel.send({ embeds: [embed], components: [row] }); // Send the action row with the embed
- 
-       const filter = (interaction) => interaction.customId === 'add-role' || interaction.customId === 'emove-role';
-       const collector = message.channel.createMessageComponentCollector({ filter, time: 60000 });
- 
-       collector.on('collect', async (interaction) => {
-         if (interaction.customId === 'add-role') {
-           // Add role logic here
-           const role = guild.roles.cache.find(role => role.name === 'New Role'); // Replace with the role you want to add
-           if (role) {
-             member.roles.add(role);
-             interaction.reply({ content: `Added role ${role.name} to ${user.tag}`, ephemeral: true });
-           } else {
-             interaction.reply({ content: `Role not found`, ephemeral: true });
-           }
-         } else if (interaction.customId === 'emove-role') {
-           // Remove role logic here
-           const role = guild.roles.cache.find(role => role.name === 'Old Role'); // Replace with the role you want to remove
-           if (role) {
-             member.roles.remove(role);
-             interaction.reply({ content: `Removed role ${role.name} from ${user.tag}`, ephemeral: true });
-           } else {
-             interaction.reply({ content: `Role not found`, ephemeral: true });
-           }
-         }
-       });
-
     } else {
       message.reply('Please mention a user!');
     }
