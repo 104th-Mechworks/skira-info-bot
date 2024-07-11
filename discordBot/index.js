@@ -5,7 +5,8 @@ const { EmbedBuilder } = require('discord.js');
 const { Client, Intents } = require('discord.js');
 const { ActivityType } = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
-const { ButtonStyle } = require('discord.js');
+const { ButtonStyle, SlashCommandBuilder } = require('discord.js');
+
 
 
 const client = new Discord.Client({ intents: [
@@ -80,9 +81,56 @@ client.on('messageCreate', (message) => {
         )
         .setFooter({ text: 'If there is any issues, dm "geek_x".' });
 
+        const row = new ActionRowBuilder()
+        .addComponents(
+          new ButtonBuilder()
+            .setCustomId('rating-roles')
+            .setLabel('Add Rating Roles')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId('medbay-roles')
+            .setLabel('Add Medbay Roles')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId('company-roles')
+            .setLabel('Add Company Roles')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId('battalion-roles')
+            .setLabel('Add Battalion Roles')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId('remove-roles')
+            .setLabel('Remove Roles')
+            .setStyle(ButtonStyle.Danger),
+        );
+        message.reply({ embeds: [embed], components: [row] });
+
     } else {
       message.reply('Please mention a user!');
     }
+  }
+});
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isButton()) return;
+
+  switch (interaction.customId) {
+    case 'rating-roles':
+      // Add rating roles to the user
+      break;
+    case 'medbay-roles':
+      // Add medbay roles to the user
+      break;
+    case 'company-roles':
+      // Add company roles to the user
+      break;
+    case 'battalion-roles':
+      // Add battalion roles to the user
+      break;
+    case 'remove-roles':
+      // Remove roles from the user
+      break;
   }
 });
 
