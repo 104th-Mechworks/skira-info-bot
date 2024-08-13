@@ -1,4 +1,16 @@
-function handleUserinfoCommand(client, message, excludedRoleNames) {
+require('dotenv').config(); //initializes dotenv
+const Discord = require('discord.js'); //imports discord.js
+const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const { Client, Intents } = require('discord.js');
+const { ActivityType } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { ButtonStyle, SlashCommandBuilder } = require('discord.js');
+const { SelectMenuBuilder } = require('discord.js');
+
+
+module.exports = {
+  handleUserinfoCommand: function(client, message, excludedRoleNames) {
   const mention = message.mentions.users.first();
   if (mention) {
     const UserID = mention.id; //get the userID
@@ -15,16 +27,15 @@ function handleUserinfoCommand(client, message, excludedRoleNames) {
       .addFields(
         { name: 'Discord Username:', value: user.tag, inline: true },
         { name: 'Server Username:', value: nickName, inline: true},
-        //{ name: "\t", value: "\t" },
         { name: 'User ID:', value: user.id, inline: true },
         { name: "\t", value: "\t" },
         { name: 'Discord Join Date:', value: user.createdAt.toLocaleString(), inline: true },
-        //{ name: "\t", value: "\t" },
         { name: 'Server Join Date:', value: guild.members.cache.get(user.id).joinedAt.toLocaleString(), inline: true }, // Use guild here
         { name: "\t", value: "\t" },
         { name: 'Roles:', value: roles, inline: true }, // Display the roles
       )
       .setFooter({ text: 'If there is any issues, dm "geek_x".' });
+
       const row1 = new ActionRowBuilder()
       .addComponents(
          new ButtonBuilder()
@@ -51,8 +62,8 @@ function handleUserinfoCommand(client, message, excludedRoleNames) {
           .setCustomId('remove-roles')
           .setLabel('Remove Roles')
           .setStyle(ButtonStyle.Danger),
-       );
-     
+       );   
+
      message.reply({ embeds: [embed], components: [row1, row2] });
      
       client.on('interactionCreate', async interaction => {
@@ -266,12 +277,5 @@ function handleUserinfoCommand(client, message, excludedRoleNames) {
       }
     })
   }
-}
-module.exports = handleUserinfoCommand;
+}};
 
-client.on('messageCreate', (message) => {
-  if (message.content.startsWith('!userinfo')) {
-  handleUserinfoCommand(client, message, excludedRoleNames);
-}
-});
-  
