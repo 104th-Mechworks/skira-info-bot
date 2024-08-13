@@ -33,3 +33,13 @@ client.on('messageCreate', (message) => {
       message.reply(`Roles given to ${mentionedUser.username}!`);
     }
   });
+
+
+
+
+
+//client.on('messageCreate', (message) => {
+  //if (message.content.startsWith('!passbct')) {
+    //passbct.handleUserinfoCommand(client, message, excludedRoleNames);
+  //}
+//});
